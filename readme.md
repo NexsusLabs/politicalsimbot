@@ -1,0 +1,1 @@
+This bot is under heavy development, features might be changed with any update. Documentation is finished yet.
