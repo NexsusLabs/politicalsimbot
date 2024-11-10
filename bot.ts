@@ -23,7 +23,7 @@ bot.use(session({ initial: () => ({}) }));
 // Install the conversations plugin.
 bot.use(conversations());
 // Initialize the db
-let db: DBHandler = new DBHandler();
+export let db: DBHandler = new DBHandler();
 
 type RegisterContext = Context & ConversationFlavor;
 type RegisterConversation = Conversation<RegisterContext>;

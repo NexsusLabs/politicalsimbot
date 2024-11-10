@@ -53,11 +53,41 @@ import { dbUri } from '.';
         name: string;
         cities: number;
         resources: CountryResource;
+        production: CountryProduction;
+        researchs: CountryTech;
         constructor(id: number, name: string) {
             this.id = id;
             this.name = name;
             this.cities = 5;
             this.resources = new CountryResource();
+            this.production = new CountryProduction();
+            this.researchs = new CountryTech();
+        }
+    }
+    export class CountryProduction {
+        income: number;
+        oil: number;
+        iron: number;
+        aluminium: number;
+        uranium: number;
+        gold: number;
+        titanium: number;
+        constructor() {
+            this.income = 1000;
+            this.oil = 5;
+            this.iron = 5;
+            this.aluminium = 3;
+            this.uranium = 0;
+            this.gold = 1;
+            this.titanium = 2;
+        }
+    }
+    export class CountryTech {
+        completedArmyTech: string[];
+        completedPolitical: string[];
+        constructor() {
+            this.completedArmyTech = [];
+            this.completedPolitical = [];
         }
     }
 export class DBHandler {
@@ -78,11 +108,21 @@ export class DBHandler {
     }
     
 }
-export class BotConfig {
-    rules: string;
-    botname: string;
-    constructor(rules: string|undefined, botname: string|undefined) {
-        this.rules = rules || '@test';
-        this.botname = botname || 'Political Simulator Bot'
-    }
+
+let tech = {
+    army: [
+        {
+            name: 'weapons1',
+            requirement: 'none',
+            bonus: 1,
+        }, 
+        {
+            name: 'weapons2',
+            requirement: 'weapons1',
+            bonus: 2,
+        }
+    ],
+    political: [
+
+    ]
 }
