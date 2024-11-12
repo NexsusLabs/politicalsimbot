@@ -38,20 +38,27 @@ async function register(
   let countryname;
   while (true) {
     let cnamectx = await conversation.waitFor(":text");
-    countryname = cnamectx.message?.text;
+    countryname = cnamectx.message?.text.trim();
     let isAllowed = true;
     if (countryname?.includes("'")) isAllowed = false;
     if (countryname?.includes('"')) isAllowed = false;
     if (countryname?.includes("\\")) isAllowed = false;
-    if (isAllowed) {
+    let isUnique = true;
+    for await (const {name} of db.countries.find()) {
+      if (name == countryname) {
+        isUnique = false;
+      }
+    }
+    if (isAllowed && isUnique) {
         ctx.reply(`نام با موفقیت ثبت شد، پیشنهاد میشه حتما کانال  ${config.rules} رو بررسی کنید.`);
         break;
     }
-    else {
+    else if (!isUnique) {
+      ctx.reply(`اسم نباید تکراری باشد. ${countryname} قبلا استفاده شده است.`);
+    } else if (!isAllowed) {
       ctx.reply("اسم ربات فقط میتواند حاوی لغات فارسی باشد.");
     }
   }
-  console.log(countryname);
   if (!await db.users.findOne({ id: { $eq: ctx.from!.id } })) {
     db.users.insertOne(new User(ctx.from!.id));
   }
